@@ -19,6 +19,12 @@ async function run() {
     try {
         await client.connect();
         const itemCollection = client.db('assignmentEleven').collection('item');
+        app.get('/inventory', async (req, res) => {
+            const query = {};
+            const cursor = itemCollection.find(query);
+            const inventories = await cursor.toArray()
+            res.send(inventories);
+        })
     }
     finally {
 
