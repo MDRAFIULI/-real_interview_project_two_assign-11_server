@@ -19,26 +19,33 @@ async function run() {
     try {
         await client.connect();
         console.log('database connected');
-        const itemCollection = client.db('assignmentEleven').collection('item');
         const inventoryCollection = client.db('assignmentEleven').collection('inventory');
-        app.get('/inventory', async (req, res) => {
-            const query = {};
-            const cursor = itemCollection.find(query);
-            const inventories = await cursor.toArray()
-            res.send(inventories);
-        });
         app.get('/manageInventory', async (req, res) => {
             const query = {};
             const cursor = inventoryCollection.find(query);
             const inventories = await cursor.toArray()
             res.send(inventories);
         });
-        app.get('/inventory/:id', async (req, res) => {
+        app.get('/manageInventory/:id', async (req, res) => {
             const id = req.params.id;
             const query = { _id: ObjectId(id) };
-            const inventory = await itemCollection.findOne(query);
+            const inventory = await inventoryCollection.findOne(query);
             res.send(inventory);
         });
+        //insert item
+        app.post('/manageInventory', async (req, res) => {
+            const newItem = req.body;
+            const result = await inventoryCollection.insertOne(newItem);
+            res.send(result);
+        })
+        //delete one inventory
+        app.delete('/manageInventory/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const result = await inventoryCollection.deleteOne(query);
+            res.send(result);
+
+        })
     }
     finally {
 
