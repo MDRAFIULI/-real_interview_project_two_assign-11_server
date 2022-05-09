@@ -68,12 +68,11 @@ async function run() {
         app.get('/myItems', verifyJWT, async (req, res) => {
             const email = req?.query?.email;
             const decodedEmail = req.decoded.email;
-            if (email === decodedEmail) {
-                const query = { email: email };
-                const cursor = await inventoryCollection.find(query);
-                const myItems = await cursor.toArray();
-                res.send(myItems);
-            }
+            const query = { email: email };
+            const cursor = await inventoryCollection.find(query);
+            const myItems = await cursor.toArray();
+            res.send(myItems);
+
         })
         app.post('/login', async (req, res) => {
             const user = req.body;
