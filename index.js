@@ -46,6 +46,26 @@ async function run() {
             res.send(result);
 
         })
+        //get inventory by user email
+        app.get('/myItems', /* verifyJWT, */ async (req, res) => {
+            console.log('this rrrreeeeqqq', req);
+            const decodedEmail = req?.decoded?.email;
+            console.log('decodedEmail', decodedEmail);
+            const email = req?.query?.email;
+            console.log('this eamil', req?.query?.email);
+            /* if (email === decodedEmail) {
+                const query = { email: email };
+                const cursor = await inventoryCollection.find(query);
+                const myItems = await cursor.toArray();
+                res.send(myItems);
+            } */
+            const query = { email: email };
+            const cursor = await inventoryCollection.find(query);
+            const myItems = await cursor.toArray();
+            res.send(myItems);
+
+
+        })
     }
     finally {
 
