@@ -65,7 +65,7 @@ async function run() {
 
         })
         //get inventory by user email
-        app.get('/myItems', verifyJWT, async (req, res) => {
+        app.get('/myItems',/*  verifyJWT, */ async (req, res) => {
             const email = req?.query?.email;
             const decodedEmail = req.decoded.email;
             const query = { email: email };
